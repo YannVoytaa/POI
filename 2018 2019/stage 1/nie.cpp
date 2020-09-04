@@ -1,0 +1,234 @@
+#include<iostream>
+#include<bits/stdc++.h>
+#define mp make_pair
+#define f first
+#define s second
+using namespace std;
+int zapisany[2],konn,n,m,pref[2][4][1000005],lol[505],wskpocz[2][4],wskkon[2][4];
+vector<int>g[2][4];
+//set<int>se[2][4];
+string s1,s2,s;
+void solve(int pocza,int kona,int poczb,int konb)
+    {
+    //cout<<pocza<<' '<<kona<<' '<<poczb<<' '<<konb<<' '<<s<<'\n';
+    if(pocza>kona||poczb>konb)return;
+    if(pref[0][0][kona+1]-pref[0][0][pocza]>0&&pref[1][0][konb+1]-pref[1][0][poczb]>0)
+        {
+        if(pref[0][0][kona+1]-pref[0][0][pocza]>pref[1][0][konb+1]-pref[1][0][poczb])
+            {
+            while(g[0][0][wskpocz[0][0]]<pocza)wskpocz[0][0]++;
+            while(wskkon[0][0]<g[0][0].size()&&g[0][0][wskkon[0][0]]<=kona)wskkon[0][0]++;
+            wskkon[0][0]-=pref[1][0][konb+1]-pref[1][0][poczb];
+            while(g[1][0][wskpocz[1][0]]<poczb)wskpocz[1][0]++;
+            while(wskpocz[1][0]<g[1][0].size()&&g[1][0][wskpocz[1][0]]<=konb)
+                {
+                solve(pocza,g[0][0][wskkon[0][0]]-1,poczb,g[1][0][wskpocz[1][0]]-1);
+                while(zapisany[0]>g[0][0][wskpocz[0][0]])wskpocz[0][0]++;
+                wskkon[0][0]++;
+                zapisany[0]=g[0][0][wskpocz[0][0]];
+                zapisany[1]=g[1][0][wskpocz[1][0]];//
+                s+='A';
+                pocza=zapisany[0]+1;
+                poczb=zapisany[1]+1;
+                wskpocz[1][0]++;
+                wskpocz[0][0]++;
+                }
+            solve(pocza,kona,poczb,konb);
+            }
+        else
+            {
+            while(g[1][0][wskpocz[1][0]]<poczb)wskpocz[1][0]++;
+            while(wskkon[1][0]<g[1][0].size()&&g[1][0][wskkon[1][0]]<=konb)wskkon[1][0]++;
+            wskkon[1][0]-=pref[0][0][kona+1]-pref[0][0][pocza];
+            while(g[0][0][wskpocz[0][0]]<pocza)wskpocz[0][0]++;
+            while(wskpocz[0][0]<g[0][0].size()&&g[0][0][wskpocz[0][0]]<=kona)
+                {
+                solve(pocza,g[0][0][wskpocz[0][0]]-1,poczb,g[1][0][wskkon[1][0]]-1);
+                while(zapisany[1]>g[1][0][wskpocz[1][0]])wskpocz[1][0]++;
+                wskkon[1][0]++;
+                zapisany[0]=g[0][0][wskpocz[0][0]];
+                zapisany[1]=g[1][0][wskpocz[1][0]];//
+                s+='A';
+                pocza=zapisany[0]+1;
+                poczb=zapisany[1]+1;
+                wskpocz[1][0]++;
+                wskpocz[0][0]++;
+                }
+            solve(pocza,kona,poczb,konb);
+            }
+        }
+    else if(pref[0][1][kona+1]-pref[0][1][pocza]>0&&pref[1][1][konb+1]-pref[1][1][poczb]>0)
+        {
+        if(pref[0][1][kona+1]-pref[0][1][pocza]>pref[1][1][konb+1]-pref[1][1][poczb])
+            {
+            while(g[0][1][wskpocz[0][1]]<pocza)wskpocz[0][1]++;
+            while(wskkon[0][1]<g[0][1].size()&&g[0][1][wskkon[0][1]]<=kona)wskkon[0][1]++;
+            wskkon[0][1]-=pref[1][1][konb+1]-pref[1][1][poczb];
+            while(g[1][1][wskpocz[1][1]]<poczb)wskpocz[1][1]++;
+            while(wskpocz[1][1]<g[1][1].size()&&g[1][1][wskpocz[1][1]]<=konb)
+                {
+                solve(pocza,g[0][1][wskkon[0][1]]-1,poczb,g[1][1][wskpocz[1][1]]-1);
+                while(zapisany[0]>g[0][1][wskpocz[0][1]])wskpocz[0][1]++;
+                wskkon[0][1]++;
+                zapisany[0]=g[0][1][wskpocz[0][1]];
+                zapisany[1]=g[1][1][wskpocz[1][1]];//
+                s+='T';
+                pocza=zapisany[0]+1;
+                poczb=zapisany[1]+1;
+                wskpocz[1][1]++;
+                wskpocz[0][1]++;
+                }
+            solve(pocza,kona,poczb,konb);
+            }
+        else
+            {
+            while(g[1][1][wskpocz[1][1]]<poczb)wskpocz[1][1]++;
+            while(wskkon[1][1]<g[1][1].size()&&g[1][1][wskkon[1][1]]<=konb)wskkon[1][1]++;
+            wskkon[1][1]-=pref[0][1][kona+1]-pref[0][1][pocza];
+            while(g[0][1][wskpocz[0][1]]<pocza)wskpocz[0][1]++;
+            while(wskpocz[0][1]<g[0][1].size()&&g[0][1][wskpocz[0][1]]<=kona)
+                {
+                solve(pocza,g[0][1][wskpocz[0][1]]-1,poczb,g[1][1][wskkon[1][1]]-1);
+                while(zapisany[1]>g[1][1][wskpocz[1][1]])wskpocz[1][1]++;
+                wskkon[1][1]++;
+                zapisany[0]=g[0][1][wskpocz[0][1]];
+                zapisany[1]=g[1][1][wskpocz[1][1]];//
+                s+='T';
+                pocza=zapisany[0]+1;
+                poczb=zapisany[1]+1;
+                wskpocz[1][1]++;
+                wskpocz[0][1]++;
+                }
+            solve(pocza,kona,poczb,konb);
+            }
+        }
+    else if(pref[0][2][kona+1]-pref[0][2][pocza]>0&&pref[1][2][konb+1]-pref[1][2][poczb]>0)
+        {
+        if(pref[0][2][kona+1]-pref[0][2][pocza]>pref[1][2][konb+1]-pref[1][2][poczb])
+            {
+            while(g[0][2][wskpocz[0][2]]<pocza)wskpocz[0][2]++;
+            while(wskkon[0][2]<g[0][2].size()&&g[0][2][wskkon[0][2]]<=kona)wskkon[0][2]++;
+            wskkon[0][2]-=pref[1][2][konb+1]-pref[1][2][poczb];
+            while(g[1][2][wskpocz[1][2]]<poczb)wskpocz[1][2]++;
+            while(wskpocz[1][2]<g[1][2].size()&&g[1][2][wskpocz[1][2]]<=konb)
+                {
+                solve(pocza,g[0][2][wskkon[0][2]]-1,poczb,g[1][2][wskpocz[1][2]]-1);
+                while(zapisany[0]>g[0][2][wskpocz[0][2]])wskpocz[0][2]++;
+                wskkon[0][2]++;
+                zapisany[0]=g[0][2][wskpocz[0][2]];
+                zapisany[1]=g[1][2][wskpocz[1][2]];//
+                s+='C';
+                pocza=zapisany[0]+1;
+                poczb=zapisany[1]+1;
+                wskpocz[1][2]++;
+                wskpocz[0][2]++;
+                }
+            solve(pocza,kona,poczb,konb);
+            }
+        else
+            {
+            while(g[1][2][wskpocz[1][2]]<poczb)wskpocz[1][2]++;
+            while(wskkon[1][2]<g[1][2].size()&&g[1][2][wskkon[1][2]]<=konb)wskkon[1][2]++;
+            wskkon[1][2]-=pref[0][2][kona+1]-pref[0][2][pocza];
+            while(g[0][2][wskpocz[0][2]]<pocza)wskpocz[0][2]++;
+            while(wskpocz[0][2]<g[0][2].size()&&g[0][2][wskpocz[0][2]]<=kona)
+                {
+                solve(pocza,g[0][2][wskpocz[0][2]]-1,poczb,g[1][2][wskkon[1][2]]-1);
+                while(zapisany[1]>g[1][2][wskpocz[1][2]])wskpocz[1][2]++;
+                wskkon[1][2]++;
+                zapisany[0]=g[0][2][wskpocz[0][2]];
+                zapisany[1]=g[1][2][wskpocz[1][2]];//
+                s+='C';
+                pocza=zapisany[0]+1;
+                poczb=zapisany[1]+1;
+                wskpocz[1][2]++;
+                wskpocz[0][2]++;
+                }
+            solve(pocza,kona,poczb,konb);
+            }
+        }
+    else if(pref[0][3][kona+1]-pref[0][3][pocza]>0&&pref[1][3][konb+1]-pref[1][3][poczb]>0)
+        {
+        if(pref[0][3][kona+1]-pref[0][3][pocza]>pref[1][3][konb+1]-pref[1][3][poczb])
+            {
+            while(g[0][3][wskpocz[0][3]]<pocza)wskpocz[0][3]++;
+            while(wskkon[0][3]<g[0][3].size()&&g[0][3][wskkon[0][3]]<=kona)wskkon[0][3]++;
+            wskkon[0][3]-=pref[1][3][konb+1]-pref[1][3][poczb];
+            while(g[1][3][wskpocz[1][3]]<poczb)wskpocz[1][3]++;
+            while(wskpocz[1][3]<g[1][3].size()&&g[1][3][wskpocz[1][3]]<=konb)
+                {
+                solve(pocza,g[0][3][wskkon[0][3]]-1,poczb,g[1][3][wskpocz[1][3]]-1);
+                while(zapisany[0]>g[0][3][wskpocz[0][3]])wskpocz[0][3]++;
+                wskkon[0][3]++;
+                zapisany[0]=g[0][3][wskpocz[0][3]];
+                zapisany[1]=g[1][3][wskpocz[1][3]];//
+                s+='G';
+                pocza=zapisany[0]+1;
+                poczb=zapisany[1]+1;
+                wskpocz[1][3]++;
+                wskpocz[0][3]++;
+                }
+            solve(pocza,kona,poczb,konb);
+            }
+        else
+            {
+            while(g[1][3][wskpocz[1][3]]<poczb)wskpocz[1][3]++;
+            while(wskkon[1][3]<g[1][3].size()&&g[1][3][wskkon[1][3]]<=konb)wskkon[1][3]++;
+            wskkon[1][3]-=pref[0][3][kona+1]-pref[0][3][pocza];
+            while(g[0][3][wskpocz[0][3]]<pocza)wskpocz[0][3]++;
+            while(wskpocz[0][3]<g[0][3].size()&&g[0][3][wskpocz[0][3]]<=kona)
+                {
+                solve(pocza,g[0][3][wskpocz[0][3]]-1,poczb,g[1][3][wskkon[1][3]]-1);
+                while(zapisany[1]>g[1][3][wskpocz[1][3]])wskpocz[1][3]++;
+                wskkon[1][3]++;
+                zapisany[0]=g[0][3][wskpocz[0][3]];
+                zapisany[1]=g[1][3][wskpocz[1][3]];//
+                s+='G';
+                pocza=zapisany[0]+1;
+                poczb=zapisany[1]+1;
+                wskpocz[1][3]++;
+                wskpocz[0][3]++;
+                }
+            solve(pocza,kona,poczb,konb);
+            }
+        }
+    }
+int main()
+{
+ios_base::sync_with_stdio(0);
+lol['A']=0;
+lol['C']=2;
+lol['T']=1;
+lol['G']=3;
+/*for(int i=0;i<=1;i++)
+    {
+    for(int j=0;j<=3;j++)
+        {
+        se[i][j].insert(-1);
+        se[i][j].insert(INT_MAX);
+        }
+    }*/
+cin>>s1>>s2;
+for(int i=0;i<s2.size();i++)
+    {
+    pref[1][0][i+1]=pref[1][0][i];
+    pref[1][1][i+1]=pref[1][1][i];
+    pref[1][2][i+1]=pref[1][2][i];
+    pref[1][3][i+1]=pref[1][3][i];
+    pref[1][lol[s2[i]]][i+1]++;
+    g[1][lol[s2[i]]].push_back(i);
+    //se[1][lol[s2[i]]].insert(i);
+    }
+for(int i=0;i<s1.size();i++)
+    {
+    pref[0][0][i+1]=pref[0][0][i];
+    pref[0][1][i+1]=pref[0][1][i];
+    pref[0][2][i+1]=pref[0][2][i];
+    pref[0][3][i+1]=pref[0][3][i];
+    pref[0][lol[s1[i]]][i+1]++;
+    g[0][lol[s1[i]]].push_back(i);
+    //se[0][lol[s1[i]]].insert(i);
+    }
+solve(0,s1.size()-1,0,s2.size()-1);
+cout<<s;
+}
