@@ -1,3 +1,12 @@
 # POI
+
 Programs I've made during Polish Olympiad in Informatics.
-My codeforces account: https://codeforces.com/profile/YannVoytaa
+
+
+## Technologies
+- C++
+
+## Links
+- Codeforces account: https://codeforces.com/profile/YannVoytaa
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
